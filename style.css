@@ -1,0 +1,443 @@
+/* ==========================================================================
+   DAILY REDEEM - Apple HIG Minimalist Design System (Light Mode)
+   ========================================================================== */
+
+:root {
+  --bg-canvas: #F5F5F7;
+  --surface-card: #FFFFFF;
+  --surface-secondary: #F2F2F7;
+  --surface-code: #F5F5F7;
+  --text-primary: #1D1D1F;
+  --text-secondary: #86868B;
+  --text-tertiary: #A1A1A6;
+  --accent-blue: #0071E3;
+  --accent-blue-hover: #0077ED;
+  --status-green: #34C759;
+  --status-green-bg: rgba(52, 199, 89, 0.12);
+  --border-light: rgba(0, 0, 0, 0.06);
+  --border-strong: rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
+  --shadow-toast: 0 12px 32px rgba(0, 0, 0, 0.15);
+  --radius-app-card: 18px;
+  --radius-code-card: 22px;
+  --radius-inner-box: 14px;
+  --radius-squircle: 13px;
+  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* CSS Reset & Defaults */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-system);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout Container */
+.app-viewport {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 24px 18px 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* View Sections & Transitions */
+.view-section {
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.22s var(--ease-spring), transform 0.22s var(--ease-spring);
+}
+
+.view-section.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Brand Header */
+.brand-header {
+  padding: 12px 4px 22px;
+  text-align: left;
+}
+
+.brand-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  color: var(--text-primary);
+}
+
+/* Applications List */
+.apps-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Sleek Horizontal App Cards ("patla patla Bada bada Card") */
+.app-card {
+  display: flex;
+  align-items: center;
+  background: var(--surface-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-app-card);
+  padding: 14px 18px;
+  min-height: 76px;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.16s var(--ease-spring), box-shadow 0.16s var(--ease-spring), border-color 0.16s ease;
+  user-select: none;
+}
+
+.app-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(0, 0, 0, 0.09);
+}
+
+.app-card:active {
+  transform: scale(0.985);
+  box-shadow: var(--shadow-card);
+}
+
+.app-card-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-squircle);
+  overflow: hidden;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.app-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 4px;
+}
+
+.app-card-info {
+  flex: 1;
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app-card-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.app-card-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.app-card-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  margin-left: 12px;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   VIEW 2: REDEEM CODE DETAILS PAGE
+   ========================================================================== */
+
+/* Detail Navigation Bar */
+.detail-top-nav {
+  display: flex;
+  align-items: center;
+  padding: 4px 0 16px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--accent-blue);
+  cursor: pointer;
+  padding: 6px 10px 6px 0;
+  border-radius: 8px;
+  transition: opacity 0.15s ease;
+}
+
+.btn-back:hover {
+  opacity: 0.8;
+}
+
+.btn-back:active {
+  opacity: 0.5;
+}
+
+/* Detail App Hero */
+.detail-app-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 0 24px;
+}
+
+.detail-icon-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 19px;
+  overflow: hidden;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.detail-app-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 6px;
+}
+
+.detail-app-name {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text-primary);
+}
+
+.detail-official-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.detail-official-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* Redeem Codes List Container */
+.codes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Prominent Redeem Code Card ("bade bade card" - 100% clean & tap-to-copy) */
+.code-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-code-card);
+  padding: 22px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.16s var(--ease-spring), box-shadow 0.16s var(--ease-spring), border-color 0.16s ease;
+}
+
+.code-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.code-card:active {
+  transform: scale(0.985);
+  box-shadow: var(--shadow-card);
+}
+
+.code-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.code-card-reward {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: -0.1px;
+}
+
+/* Large Clean Monospace Code Box */
+.code-box-wrapper {
+  background: var(--surface-code);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-inner-box);
+  padding: 16px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.code-string {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+/* Optional PIN Box (for Flipkart etc.) */
+.pin-box-wrapper {
+  background: #FFFFFF;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.pin-box-wrapper:hover {
+  background: var(--surface-code);
+}
+
+.pin-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pin-string {
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.btn-secondary-action:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   FLOATING APPLE PILL TOAST
+   ========================================================================== */
+
+.toast-wrapper {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9999;
+  padding: 0 16px;
+}
+
+.apple-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(29, 29, 31, 0.92);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-toast);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  opacity: 0;
+  transform: translateY(-16px) scale(0.94);
+  transition: transform 0.26s var(--ease-spring), opacity 0.22s ease;
+}
+
+.apple-toast.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-check-icon {
+  color: #34C759;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Mobile & Desktop)
+   ========================================================================== */
+
+@media (max-width: 440px) {
+  .app-viewport {
+    padding: 16px 14px 36px;
+  }
+
+  .brand-title {
+    font-size: 28px;
+  }
+
+  .app-card {
+    padding: 12px 14px;
+    min-height: 72px;
+  }
+
+  .app-card-name {
+    font-size: 16px;
+  }
+
+  .code-card {
+    padding: 16px;
+  }
+
+  .code-string {
+    font-size: 16px;
+  }
+
+  .code-card-actions {
+    grid-template-columns: 1fr;
+  }
+}
